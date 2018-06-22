@@ -10,71 +10,68 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_18_060133) do
+ActiveRecord::Schema.define(version: 2018_06_22_065931) do
 
-  create_table "articles", force: :cascade do |t|
-    t.string "title"
-    t.text "text"
-    t.integer "user_id"
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "house_number", default: "", null: false
+    t.string "street_number", default: "", null: false
+    t.string "area", default: "", null: false
+    t.string "city", default: "", null: false
+    t.string "state", default: "", null: false
+    t.string "country", default: "", null: false
+    t.string "pin", default: "", null: false
+    t.string "address_proof", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "verify"
-    t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
-  create_table "comments", force: :cascade do |t|
-    t.text "body"
-    t.integer "article_id"
-    t.integer "user_id"
+  create_table "banks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["article_id"], name: "index_comments_on_article_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "images", force: :cascade do |t|
-    t.string "name"
-    t.string "imageable_type"
-    t.integer "imageable_id"
+  create_table "local_addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "name"
-    t.string "resource_type"
-    t.integer "resource_id"
+  create_table "parmanent_addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
-    t.index ["name"], name: "index_roles_on_name"
-    t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
+    t.string "first_name", default: "", null: false
+    t.string "last_name", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "fathers_name", default: "", null: false
+    t.string "mothers_name", default: "", null: false
+    t.string "occupation", default: "", null: false
+    t.string "fathers_occupation", default: "", null: false
+    t.string "mothers_occupation", default: "", null: false
+    t.string "phone_number", default: "", null: false
+    t.string "email", default: "", null: false
+    t.string "social_sucurity_number", default: "", null: false
+    t.string "pan", default: "", null: false
+    t.string "document", default: "", null: false
+    t.string "profile_photo", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "users_roles", id: false, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "role_id"
-    t.index ["role_id"], name: "index_users_roles_on_role_id"
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
-    t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
 end

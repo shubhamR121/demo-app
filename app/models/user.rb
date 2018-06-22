@@ -1,18 +1,18 @@
 class User < ApplicationRecord
-  rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+
+  has_many :addressess, dependent: :destroy 
+  has_one :local_address, dependent: :destroy
+  has_one :permanent_address, dependent: :destroy
+
+  accepts_nested_attributes_for :permanent_address
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,         
+         :confirmable
 
-  has_many :articles, dependent: :destroy
-  has_many :comments, dependent: :destroy
-  has_many :images, as: :imageable
-  accepts_nested_attributes_for :images
+  mount_uploader :document, ImageUploader
+  mount_uploader :profile_photo, ImageUploader
 
-  after_create :assign_default_role
-
-  def assign_default_role
-    self.add_role(:user) if self.roles.blank?
-  end
 end
